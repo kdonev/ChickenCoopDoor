@@ -1,2 +1,2 @@
 # ChickenCoopDoor
-Logic to control automatic chicken coop door
+Logic to control automatic chicken coop door with Arduino
