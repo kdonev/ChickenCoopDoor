@@ -14,7 +14,7 @@ double solarConst = 1367;           // solar constant W.m-2
 // sofia
 double rlat = 42.671 * pi/180;
 double rlong = 23.233 * pi/180;
-double g_localTimeAdjust = 2;
+double g_localTimeAdjust = 3;
 
 char daysOfTheWeek[7][12] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
@@ -36,8 +36,8 @@ const DelayMs maxDoorCloseMoveTime = 15000L;
 const DelayMs maxDoorOpenMoveTime = 80000L;
 
 // both delays are in minutes and can be negative too.
-const int closeDelayAfterSunset = 30;
-const int openDelayAfterSunrise = -15;
+const int closeDelayAfterSunset = 15;
+const int openDelayAfterSunrise = 0;
 
 enum State
 {
