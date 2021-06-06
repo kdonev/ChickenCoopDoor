@@ -117,24 +117,35 @@ void setup() {
   calculateTimesForTomorrow();
 }
 
-void calculateTimesForTomorrow()
+void calculateNextCloseTime()
 {
-    logEvent("Calculating times for tommorow.");
-  Serial.println("calculateTimesForTomorrow");
+    logEvent("Calculating next close time.");
+    Serial.println("calculateNextCloseTime");
  	DateTime now = rtc.now();
-  printTime("Now is ", now);
+
+	double sunsetLocalTime = CalculateSunsetLocalTime(now.day(), now.month(), now.year(), rlong, rlat);
+	nextCloseTime = int(sunsetLocalTime * 60) + closeDelayAfterSunset;
+    Serial.print("Next close time ");
+    Serial.println(nextCloseTime);
+}
+
+void calculateNextOpenTime()
+{
+    logEvent("Calculating next open time.");
+    Serial.println("calculateNextOpenTime");
+ 	DateTime now = rtc.now();
 	DateTime tomorrow (now + TimeSpan(0, 24, 0, 0));
-  printTime("Tomorrow is ", tomorrow);
 
 	double sunriseLocalTime = CalclulateSunriseLocalTime(tomorrow.day(), tomorrow.month(), tomorrow.year(), rlong, rlat);
 	nextOpenTime = int(sunriseLocalTime * 60) + openDelayAfterSunrise;
-  Serial.print("Next open time ");
-  Serial.println(nextOpenTime);
-  
-	double sunsetLocalTime = CalculateSunsetLocalTime(tomorrow.day(), tomorrow.month(), tomorrow.year(), rlong, rlat);
-	nextCloseTime = int(sunsetLocalTime * 60) + closeDelayAfterSunset;
-   Serial.print("Next close time ");
-  Serial.println(nextCloseTime);
+    Serial.print("Next open time ");
+    Serial.println(nextOpenTime);
+}
+
+void calculateTimesForTomorrow()
+{
+    calculateNextCloseTime();
+    calculateNextOpenTime();
 }
 
 int nowInMinutes()
@@ -219,6 +230,8 @@ void checkDown()
 		delay(1000);
 		stopMotor();
 		currentState = Down;
+
+        calculateNextOpenTime();
 	}
     else
     {
@@ -235,6 +248,8 @@ void checkUp()
         stopMotor();
         logEvent("Door is up.");
 		currentState = Up;
+
+        calculateNextCloseTime();
 	}
     else
     {
@@ -253,8 +268,6 @@ void closeTheDoor()
 {
 	startMoveDown();
 	currentState = MoveDown;
-	
-	calculateTimesForTomorrow();
 }
 
 DelayMs doUnknownState()
