@@ -20,24 +20,24 @@ char daysOfTheWeek[7][12] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
 const int motorDirpin = 4;
 const int motorPwmpin = 5;
-const int motorSpeed = 96;
+const int motorSpeed = 140 ;
 
 const int buttonUpPin = 9;
 const int buttonDownPin = 10;
 
-const int btnDownStopPin = 11;
+const int btnDownStopPin = 11; 
 const int btnUpStopPin = 12;
 
 typedef long DelayMs;
 
 const DelayMs maxDelayForState = 5000; // in miliseconds
 
-const DelayMs maxDoorCloseMoveTime = 15000L;
-const DelayMs maxDoorOpenMoveTime = 80000L;
+const DelayMs maxDoorCloseMoveTime = 40000L;
+const DelayMs maxDoorOpenMoveTime = 150000L;
 
 // both delays are in minutes and can be negative too.
-const int closeDelayAfterSunset = 15;
-const int openDelayAfterSunrise = 0;
+const int closeDelayAfterSunset = 35;
+const int openDelayAfterSunrise = -10;
 
 enum State
 {
@@ -227,7 +227,7 @@ void checkDown()
 	{
         logEvent("Door is down.");
 		// keep moving so the wheel can go little more
-		delay(1000);
+		// delay(1000);
 		stopMotor();
 		currentState = Down;
 
